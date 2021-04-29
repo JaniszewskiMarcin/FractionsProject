@@ -8,28 +8,10 @@ public class Fraction implements Comparable{
         return counter;
     }
 
-    public void setCounter(int counter) {
-        if(counter == 0){
-            System.out.println("Valid value!");
-            throw new IllegalArgumentException();
-        } else {
-            this.counter = counter;
-        }
-    }
-
     private int denominator;
 
     public int getDenominator() {
         return denominator;
-    }
-
-    public void setDenominator(int denominator) {
-        if(denominator == 0){
-            System.out.println("You can not set denominator to 0");
-            throw new ArithmeticException();
-        } else {
-            this.denominator = denominator;
-        }
     }
 
     private int wholeNumber = 0;
@@ -49,15 +31,15 @@ public class Fraction implements Comparable{
     }
 
     Fraction(int counter, int denominator){
-        setCounter(counter);
-        setDenominator(denominator);
+        this.counter = counter;
+        this.denominator = denominator;
         this.simpleFraction = true;
     }
 
     Fraction(int counter, int denominator, int wholeNumber){
         this.wholeNumber = wholeNumber;
-        setCounter(counter);
-        setDenominator(denominator);
+        this.counter = counter;
+        this.denominator = denominator;
         this.simpleFraction = false;
     }
 
@@ -66,6 +48,10 @@ public class Fraction implements Comparable{
         int finalCounter;
         int finalDenominator;
         int divideNumber = 1;
+
+        if(this.counter == 0){
+            return new Fraction(0);
+        }
 
         int i = Math.min(Math.abs(this.counter), Math.abs(this.denominator));
 
@@ -188,6 +174,7 @@ public class Fraction implements Comparable{
         return roundDecimal(finalResult, howManyDecimals);
     }
 
+    @Override
     public String toString(){
         if(this.wholeNumber == 0){
             return "" + this.counter + "/" + this.denominator;
