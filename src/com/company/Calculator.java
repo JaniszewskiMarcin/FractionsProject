@@ -17,7 +17,7 @@ public class Calculator {
             System.out.println(firstFraction.compareTo(secondFraction));
 
         } catch(FractionException e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 }

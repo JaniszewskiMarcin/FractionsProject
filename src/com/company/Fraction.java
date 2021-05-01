@@ -3,29 +3,32 @@ package com.company;
 public class Fraction implements Comparable{
 
     private int counter;
+    private int denominator;
+    private int wholeNumber = 0;
+
+    boolean simpleFraction = true;
 
     public int getCounter() {
         return counter;
     }
 
-    private int denominator;
-
     public int getDenominator() {
         return denominator;
     }
-
-    private int wholeNumber = 0;
 
     public int getWholeNumber() {
         return wholeNumber;
     }
 
-    boolean simpleFraction = true;
-
     Fraction(){
         this.counter = 1;
         this.denominator = 1;
         this.wholeNumber = 1;
+        this.simpleFraction = false;
+    }
+
+    Fraction(int wholeNumber){
+        this.wholeNumber = wholeNumber;
         this.simpleFraction = false;
     }
 
@@ -40,16 +43,7 @@ public class Fraction implements Comparable{
     }
 
     Fraction(int counter, int denominator, int wholeNumber)throws FractionException{
-        this.wholeNumber = wholeNumber;
-        this.counter = counter;
-        this.denominator = denominator;
-        if(this.denominator == 0){
-            throw new FractionException("Denominator can not have value of 0!");
-        }
-        this.simpleFraction = false;
-    }
-
-    Fraction(int wholeNumber){
+        this(counter, denominator);
         this.wholeNumber = wholeNumber;
         this.simpleFraction = false;
     }
