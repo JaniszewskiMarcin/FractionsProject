@@ -8,18 +8,6 @@ public class Fraction implements Comparable{
 
     boolean simpleFraction = true;
 
-    public int getCounter() {
-        return counter;
-    }
-
-    public int getDenominator() {
-        return denominator;
-    }
-
-    public int getWholeNumber() {
-        return wholeNumber;
-    }
-
     Fraction(){
         this.counter = 1;
         this.denominator = 1;
@@ -29,6 +17,8 @@ public class Fraction implements Comparable{
 
     Fraction(int wholeNumber){
         this.wholeNumber = wholeNumber;
+        this.counter = 0;
+        this.denominator = 0;
         this.simpleFraction = false;
     }
 
@@ -214,5 +204,19 @@ public class Fraction implements Comparable{
         } else if (thisFraction == otherFraction){
             return 0;
         } else return -1;
+    }
+
+    //GETTERS--------------------------------------------------------------
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public int getDenominator() {
+        return denominator;
+    }
+
+    public int getWholeNumber() {
+        return wholeNumber;
     }
 }
