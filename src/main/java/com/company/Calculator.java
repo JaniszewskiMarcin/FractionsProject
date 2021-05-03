@@ -4,7 +4,7 @@ public class Calculator {
 
     public static void main(String[] args) {
         try{
-            Fraction firstFraction = new Fraction(5,0);
+            Fraction firstFraction = new Fraction(4,6);
             Fraction secondFraction = new Fraction(2, 4);
 
             Fraction a = firstFraction.reduceFraction(false);
