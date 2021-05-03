@@ -2,6 +2,10 @@ package com.company;
 
 import lombok.SneakyThrows;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class Fraction implements Comparable{
 
     @lombok.Getter
@@ -9,7 +13,7 @@ public class Fraction implements Comparable{
     @lombok.Getter
     private double denominator;
     @lombok.Getter
-    private int wholeNumber = 0;
+    private double wholeNumber = 0;
 
     private boolean simpleFraction = true;
 
@@ -20,7 +24,7 @@ public class Fraction implements Comparable{
         this.simpleFraction = false;
     }
 
-    Fraction(int wholeNumber){
+    Fraction(double wholeNumber){
         this.wholeNumber = wholeNumber;
         this.counter = 0;
         this.denominator = 0;
@@ -37,7 +41,7 @@ public class Fraction implements Comparable{
         this.simpleFraction = true;
     }
 
-    Fraction(double counter, double denominator, int wholeNumber)throws FractionException{
+    Fraction(double counter, double denominator, double wholeNumber)throws FractionException{
         this(counter, denominator);
         this.wholeNumber = wholeNumber;
         this.simpleFraction = false;
@@ -89,7 +93,7 @@ public class Fraction implements Comparable{
         return new Fraction(finalCounter, finalDenominator);
     }
 
-    public double decimalFractionConvert(double howManyDecimals) throws FractionException {
+    public double decimalFractionConvert(int howManyDecimals) throws FractionException {
 
         double newCounter = this.counter;
         double newDenominator = this.denominator;
@@ -102,23 +106,27 @@ public class Fraction implements Comparable{
             result = (newCounter + (newWholeNumber * newDenominator))/ newDenominator;
         }
 
-        return roundDecimal(result, howManyDecimals);
+        return roundDecimal(result, howManyDecimals, true);
     }
 
-    public double roundDecimal(double value, double howManyDecimals) throws FractionException {
+    public double roundDecimal(double value, int howManyDecimals, boolean onlyCutNumbers) throws FractionException {
         if(howManyDecimals < 0){
             throw new FractionException("Invalid decimals argument! Can not input negative values!");
         }
 
-        double howMany = Math.pow(10, howManyDecimals);
-
-        return Math.round(value * howMany)/howMany;
+        if(onlyCutNumbers){
+            BigDecimal bd = new BigDecimal(value).setScale(howManyDecimals, RoundingMode.UNNECESSARY);
+            return bd.doubleValue();
+        } else {
+            double howMany = Math.pow(10, howManyDecimals);
+            return Math.round(value * howMany)/howMany;
+        }
     }
 
     public Fraction mathOperationsOnTwoFractions(Operations operationType, Fraction other) throws FractionException{
 
-        int finalCounter = 1;
-        int finalDenominator = 1;
+        double finalCounter = 1;
+        double finalDenominator = 1;
 
         switch(operationType){
             case ADD:
@@ -165,7 +173,7 @@ public class Fraction implements Comparable{
         return new Fraction(finalCounter, finalDenominator);
     }
 
-    public Fraction power(int powerValue) throws FractionException {
+    public Fraction power(int powerValue, int howManyDecimals) throws FractionException {
         double finalCounter;
         double finalDenominator;
         double finalWholeNumber;
@@ -173,16 +181,16 @@ public class Fraction implements Comparable{
         finalWholeNumber = Math.pow(this.wholeNumber, powerValue);
 
         if(this.denominator == 0 && this.counter == 0){
-            return new Fraction((int)finalWholeNumber);
+            return new Fraction(roundDecimal(finalWholeNumber, howManyDecimals, true));
         }
 
         finalCounter = Math.pow(this.counter + (this.wholeNumber * this.denominator), powerValue);
         finalDenominator = Math.pow(this.denominator, powerValue);
 
-        return new Fraction((int) finalCounter, (int) finalDenominator);
+        return new Fraction(roundDecimal(finalCounter, howManyDecimals, true), roundDecimal(finalDenominator, howManyDecimals, true));
     }
 
-    public double sqrFraction(int sqrDegree, double howManyDecimals) throws FractionException{
+    public double sqrFraction(int sqrDegree, int howManyDecimals) throws FractionException{
         double finalCounter;
         double finalDenominator;
 
@@ -191,15 +199,15 @@ public class Fraction implements Comparable{
         }
 
         if(this.denominator == 0 && this.counter == 0){
-            return roundDecimal(Math.pow(this.wholeNumber, (double)(1d/sqrDegree)), howManyDecimals);
+            return roundDecimal(Math.pow(this.wholeNumber, (1d/sqrDegree)), howManyDecimals, true);
         }
 
-        finalCounter = Math.pow(this.counter + (this.wholeNumber * this.denominator), (double)(1d/sqrDegree));
-        finalDenominator = Math.pow(this.denominator, (double)(1d/sqrDegree));
+        finalCounter = Math.pow(this.counter + (this.wholeNumber * this.denominator),(1d/sqrDegree));
+        finalDenominator = Math.pow(this.denominator, (1d/sqrDegree));
 
         double finalResult = finalCounter/finalDenominator;
 
-        return roundDecimal(finalResult, howManyDecimals);
+        return roundDecimal(finalResult, howManyDecimals, true);
     }
 
     public static void checkException(double denominator) throws FractionException {
