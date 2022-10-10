@@ -1,6 +1,6 @@
 # FractionsProject
 Java console application that count math operations on fractions.
-
+AHAHAHAHA NISZCZE TEN PLIK
 Zad 1.
 
 1. Zaprojektuj klasę Ułamek. Klasa ta powinna pozwalać na dodawanie, odejmowanie, mnożenie oraz dzielenie ułamków.
